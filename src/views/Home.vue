@@ -1,18 +1,12 @@
 <script lang="ts">
-export default {
-    name: "HomeView",
-    data() {
-        return {
-            has_jobs: true
-        }
-    }
-}
+import getJob from '@/service/api'
 
+const jobs = getJob()
 </script>
 
 <template>
     <h1>Bem vindo!</h1>
-    <p v-if="has_jobs">
+    <p v-if="true">
         <!-- Listar jobs -->
         <!-- <p v-for=""></p> -->
         <h2>Existem jobs</h2>
