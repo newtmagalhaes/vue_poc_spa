@@ -8,36 +8,29 @@ import DataView from 'primevue/dataview';
 import { Job } from "@/service/http/Job";
 import getJob from "@/service/http/Job";
 
-let state:Job[] = reactive([])
+const state = reactive({jobs: <Job[]>[]})
 
 function atualizar() {
     getJob()
-        .then(
-            (response) => {
-                console.log(response)
-                state = response
-            }
-        )
-        .catch(
-            (error) => {
-                console.log(error)
-                state = []
-            }
-        )
-    nextTick(() => {
-        console.log(`state: ${state}`)
-    })
+        .then((response) => {
+            console.log(state)
+            state.jobs = response
+        })
+        .catch((error) => {
+            console.log(error)
+            state.jobs = []
+        })
 }
 </script>
 
 <template>
-    <DataView :value="state" :data-key="'id'">
+    <DataView :value="state.jobs" :data-key="'id'">
         <template #header>
             <Button label="Atualizar" @click="atualizar" />
         </template>
         <template #list="jobItem">
             <div class="col-12">
-                <!-- <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
                     <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                         <div class="flex flex-column align-items-center sm:align-items-start gap-3">
                             <div class="text-2xl font-bold text-900">{{ jobItem.data.title }}</div>
@@ -49,7 +42,7 @@ function atualizar() {
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div> 
                 <Card>
                     <template #content>
                         {{ jobItem.data }}
