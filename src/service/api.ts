@@ -17,7 +17,7 @@ const api = axios.create({
     baseURL: "http://localhost:3000"
 })
 
-export default async function getJob(): Promise<Job[]> {
+export default async function getJob(): Job[] {
     const response = await api.get<Job[]>("/jobs")
     return response.data
 }

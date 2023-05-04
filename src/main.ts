@@ -6,11 +6,12 @@ import App from './App.vue'
 import router from './router'
 
 //theme
-import "primevue/resources/themes/soho-dark/theme.css";     
+import "primevue/resources/themes/soho-dark/theme.css";
 
 //core
 import "primevue/resources/primevue.min.css";
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 
 const app = createApp(App)
 
