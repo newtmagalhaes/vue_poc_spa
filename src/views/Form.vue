@@ -1,10 +1,7 @@
-<script lang="ts">
-import Form from "../components/Form.vue"
-
+<script setup lang="ts">
+import JobForm from '@/components/JobForm.vue';
 </script>
 
 <template>
-    <form action="createNewJob" method="post">
-
-    </form>
+    <JobForm />
 </template>

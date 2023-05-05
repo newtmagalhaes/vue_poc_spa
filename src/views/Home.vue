@@ -5,8 +5,7 @@ import Button from 'primevue/button'
 import Card from 'primevue/card';
 import DataView from 'primevue/dataview';
 
-import { Job } from "@/service/http/Job";
-import getJob from "@/service/http/Job";
+import { Job, getJob } from "@/service/http/Job";
 import ListItem from '@/components/dataItems/ListItem.vue';
 
 const state = reactive({ jobs: <Job[]>[] })
@@ -38,7 +37,7 @@ function atualizar() {
                     <template #header>
                         <img alt="user header" src="@/assets/logo.svg" />
                     </template>
-                    <template #title> Sem trabalhos no momento </template>
+                    <template #title>Sem trabalhos no momento</template>
                     <template #subtitle>Experimente atualizar depois de um tempo</template>
                 </Card>
             </div>
