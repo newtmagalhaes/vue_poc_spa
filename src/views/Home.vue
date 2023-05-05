@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue';
+import { reactive } from 'vue';
 
-import Card from 'primevue/card';
 import Button from 'primevue/button'
+import Card from 'primevue/card';
 import DataView from 'primevue/dataview';
 
 import { Job } from "@/service/http/Job";
 import getJob from "@/service/http/Job";
+import ListItem from '@/components/dataItems/ListItem.vue';
 
-const state = reactive({jobs: <Job[]>[]})
+const state = reactive({ jobs: <Job[]>[] })
 
 function atualizar() {
     getJob()
@@ -29,29 +30,18 @@ function atualizar() {
             <Button label="Atualizar" @click="atualizar" />
         </template>
         <template #list="jobItem">
-            <div class="col-12">
-                <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                    <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                        <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                            <div class="text-2xl font-bold text-900">{{ jobItem.data.title }}</div>
-                            <div class="flex align-items-center gap-3">
-                                <span class="flex align-items-center gap-2">
-                                    <i class="pi pi-tag"></i>
-                                    <span class="font-semibold">{{ jobItem.data.dificulty }}</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-                <Card>
-                    <template #content>
-                        {{ jobItem.data }}
-                    </template>
-                </Card>
-            </div>
+            <ListItem :job="jobItem.data" />
         </template>
         <template #empty>
-            <h2>Não existem jobs</h2>
+            <div class="col-6 col-offset-3">
+                <Card>
+                    <template #header>
+                        <img alt="user header" src="@/assets/logo.svg" />
+                    </template>
+                    <template #title> Sem trabalhos no momento </template>
+                    <template #subtitle>Experimente atualizar depois de um tempo</template>
+                </Card>
+            </div>
         </template>
     </DataView>
 </template>
