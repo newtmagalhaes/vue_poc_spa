@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 
-import InputText from 'primevue/inputtext'
+import InputTitle from '@/components/formItems/InputTitle.vue'
 import SelectButton from 'primevue/selectbutton';
 import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { useField, useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate';
 
 import { Dificulty, JobPost } from '@/service/http/Job';
 
@@ -40,8 +40,9 @@ function validateFields(value: JobPost) {
         <Toast />
         <form @submit="onSubmit">
             <div class="input-container">
-                <label for="titulo">Nome da vaga</label>
-                <InputText id="titulo" v-model="value.title" class="p-inputtext-lg" />
+                <InputTitle
+                    :name="f"
+                />
             </div>
             <div class="input-container">
                 <label for="dificuldade">Dificuldade</label>
