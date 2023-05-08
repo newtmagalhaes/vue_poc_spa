@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 
-import InputTitle from '@/components/formItems/InputTitle.vue'
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 import SelectButton from 'primevue/selectbutton';
 import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { useField, useForm } from 'vee-validate';
 
-import { Dificulty, JobPost } from '@/service/http/Job';
+import { Dificulty, JobPost, postJob } from '@/service/http/Job';
+import router from '@/router';
 
 const data = reactive<JobPost>({
     title: "",
@@ -17,44 +18,62 @@ const data = reactive<JobPost>({
 })
 
 const toast = useToast()
-const { handleSubmit, isSubmitting, resetForm } = useForm()
-const { value, errorMessage } = useField('data', validateFields)
 
-const onSubmit = handleSubmit((values) => {
-    toast.add({ severity: 'info', summary: 'Form Submitted', detail: values.title, life: 3000 });
-    resetForm();
-})
-
-function validateFields(value: JobPost) {
-    if (!value) {
-        return 'name required';
+function adjustData(data: JobPost): JobPost {
+    return {
+        title: data.title || "Vaga sem titulo",
+        dificulty: data.dificulty,
+        description: data.description,
     }
-    return true;
+}
+
+const onSubmit = (values: Event) => {
+    postJob(adjustData(data))
+        .then((response) => {
+            router.push({path: "/"}).then((response)=>{
+                console.log("analise")
+                toast.add({ severity: 'info', summary: 'Form Submitted', detail: data.title, life: 3000 });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+            toast.add({
+                severity: 'error',
+                summary: 'Um erro aconteceu',
+                detail: 'Tente de novo depois',
+            })
+        })
 }
 
 </script>
 
 
 <template>
-    <div class="card flex justify-content-center">
-        <Toast />
-        <form @submit="onSubmit">
-            <div class="input-container">
-                <InputTitle
-                    :name="f"
-                />
+    <div class="card">
+        <form>
+            <div class="field">
+                <label for="title">Título</label>
             </div>
-            <div class="input-container">
+            <div class="field">
+                <InputText id="title" type="text" v-model="data.title" />
+            </div>
+            <div class="field">
                 <label for="dificuldade">Dificuldade</label>
-                <SelectButton id="dificuldade" v-model="value.dificulty" :options="['easy', 'medium', 'hard']" />
+                <SelectButton id="dificuldade" v-model="data.dificulty" :options="['easy', 'medium', 'hard']" />
             </div>
-            <div class="input-container">
+            <div class="field">
                 <label for="description">Descrição</label>
-                <Textarea id="description" v-model="value.description" auto-resize />
             </div>
-            <button type="submit" :disabled="isSubmitting">Criar</button>
+            <div class="field">
+                <Textarea id="description" v-model="data.description" auto-resize />
+            </div>
+            <Button label="Criar" v-on:click="onSubmit" />
         </form>
     </div>
+    <Toast />
 </template>
 
 

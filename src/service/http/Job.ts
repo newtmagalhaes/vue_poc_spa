@@ -23,3 +23,7 @@ export async function getJob(): Promise<Job[]> {
 export async function postJob(data: JobPost) {
     return (await api.post<Job[]>("/jobs", data = data)).data;
 }
+
+export async function deleteJob(id: number) {
+    return (await api.delete(`/jobs/${id}`)).data;
+}

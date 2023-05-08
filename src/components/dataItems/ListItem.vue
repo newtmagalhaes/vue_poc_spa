@@ -6,7 +6,7 @@ import Panel from 'primevue/panel';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 
-import { Job } from '@/service/http/Job';
+import { Job, deleteJob, getJob } from '@/service/http/Job';
 
 const props = defineProps<{ job: Job }>();
 
@@ -26,15 +26,22 @@ const menuItems = ref([
             {
                 label: 'Delete',
                 icon: 'pi pi-trash',
-                command: () => {
-                    toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
-                }
+                command: deletar,
             }
         ]
     },
 ])
 
 const toggle = (event: Event) => { menu.value.toggle(event); };
+
+function deletar() {
+    deleteJob(props.job.id)
+        .then((response) => {
+            console.log("deletou")
+            toast.add({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
+        })
+        .catch((error) => {console.log(error)})
+}
 </script>
 
 <template>
