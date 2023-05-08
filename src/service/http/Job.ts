@@ -27,3 +27,7 @@ export async function postJob(data: JobPost) {
 export async function deleteJob(id: number) {
     return (await api.delete(`/jobs/${id}`)).data;
 }
+
+export async function updateJob(id: number, data: JobPost) {
+    return (await api.put<Job[]>(`/jobs/${id}`, data=data)).data;
+}

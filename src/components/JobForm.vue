@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
 
 import Button from 'primevue/button';
+import DynamicDialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext';
 import SelectButton from 'primevue/selectbutton';
 import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 
-import { Dificulty, JobPost, postJob } from '@/service/http/Job';
+import { JobPost, postJob } from '@/service/http/Job';
 import router from '@/router';
 
-const data = reactive<JobPost>({
-    title: "",
-    dificulty: Dificulty.easy,
-    description: "",
-})
+const props = defineProps<{ job: JobPost }>();
 
 const toast = useToast()
 
@@ -28,11 +24,11 @@ function adjustData(data: JobPost): JobPost {
 }
 
 const onSubmit = (values: Event) => {
-    postJob(adjustData(data))
+    postJob(adjustData(props.job))
         .then((response) => {
             router.push({path: "/"}).then((response)=>{
                 console.log("analise")
-                toast.add({ severity: 'info', summary: 'Form Submitted', detail: data.title, life: 3000 });
+                toast.add({ severity: 'info', summary: 'Form Submitted', detail: props.job.title, life: 3000 });
             })
             .catch((error) => {
                 console.log(error)
@@ -58,22 +54,23 @@ const onSubmit = (values: Event) => {
                 <label for="title">Título</label>
             </div>
             <div class="field">
-                <InputText id="title" type="text" v-model="data.title" />
+                <InputText id="title" type="text" v-model="props.job.title" />
             </div>
             <div class="field">
                 <label for="dificuldade">Dificuldade</label>
-                <SelectButton id="dificuldade" v-model="data.dificulty" :options="['easy', 'medium', 'hard']" />
+                <SelectButton id="dificuldade" v-model="props.job.dificulty" :options="['easy', 'medium', 'hard']" />
             </div>
             <div class="field">
                 <label for="description">Descrição</label>
             </div>
             <div class="field">
-                <Textarea id="description" v-model="data.description" auto-resize />
+                <Textarea id="description" v-model="props.job.description" auto-resize />
             </div>
             <Button label="Criar" v-on:click="onSubmit" />
         </form>
     </div>
     <Toast />
+    <DynamicDialog />
 </template>
 
 

@@ -1,22 +1,22 @@
 {
-    "jobs": [
-        {
-            "id": 1,
-            "title": "vaga front",
-            "dificulty": "easy",
-            "description": "trabalho simples"
-        },
-        {
-            "id": 2,
-            "title": "vaga back",
-            "dificulty": "medium",
-            "description": "trabalho"
-        },
-        {
-            "id": 3,
-            "title": "vaga devops",
-            "dificulty": "hard",
-            "description": "trabalho complexo"
-        }
-    ]
+  "jobs": [
+    {
+      "id": 1,
+      "title": "vaga front",
+      "dificulty": "easy",
+      "description": "trabalho simples"
+    },
+    {
+      "id": 2,
+      "title": "vaga back",
+      "dificulty": "medium",
+      "description": "trabalho"
+    },
+    {
+      "id": 3,
+      "title": "vaga devops",
+      "dificulty": "hard",
+      "description": "trabalho complexo"
+    }
+  ]
 }
